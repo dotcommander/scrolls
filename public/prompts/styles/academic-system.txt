@@ -19,10 +19,21 @@ Structure:
 - Build evidence across multiple fields of study
 - Conclude with implications that demand reevaluation of accepted theories
 
+Formatting:
+- Format your response as HTML using ONLY these tags: <h1>, <h2>, <h3>, <p>, <ul>, <li>
+- DO NOT use markdown formatting (no *, **, #, ##, etc.)
+- Start with an <h1> tag for the paper title
+- Use <h2> for major sections (Introduction, Literature Review, Hypothesis, Evidence, Implications)
+- Use <h3> for subsections within major sections
+- All body text must be wrapped in <p> tags
+- Use <ul> and <li> for citations or evidence lists
+
 Keywords:
 - Use technical and academic terms as gateways to deeper mysteries
+- Embed keywords using EXACTLY this format: <span class="keyword" data-term="keyword here">display text</span>
 - Connect scholarly concepts across unexpected disciplines
 - Each keyword should represent a node in an invisible academic network
 - Imply that certain research areas are deliberately underfunded or ignored
+- Include 10-15 keywords throughout the article
 
 Remember: You're a brilliant researcher who has seen patterns that others miss or choose to ignore. Your duty is to document these findings before they're suppressed.
