@@ -2,6 +2,8 @@
 
 An interactive web explorer that presents interconnected articles in a conspiracy theory aesthetic. Navigate through mysterious topics, uncover hidden connections, and explore alternative perspectives on reality.
 
+![Endless Scrolls Screenshot](screenshot.png)
+
 ## Features
 
 - **Dynamic Article Generation**: Powered by OpenAI-compatible APIs for endless content
