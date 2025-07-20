@@ -1,56 +1,125 @@
 {
-  "version": "1.0",
-  "defaultStyle": "conspiracy",
+  "version": "2.0",
+  "defaultStyle": "dramatic",
+  "baseInstructions": {
+    "identity": "You are writing articles for \"Endless Scrolls\", a mysterious collection of interconnected knowledge.",
+    "formatting": {
+      "html": {
+        "tags": ["<h1>", "<h2>", "<h3>", "<p>", "<ul>", "<li>", "<strong>", "<em>"],
+        "structure": "Introduction (1-2 paragraphs) → 3-4 main sections with subheadings → Connections section → Implications/Questions"
+      },
+      "keywords": {
+        "format": "<span class=\"keyword\" data-term=\"Term\">Term</span>",
+        "rules": [
+          "Wrap ALL proper nouns, places, people, concepts, and interesting terms",
+          "If something likely has a Wikipedia page, it MUST be wrapped as a keyword",
+          "Ensure data-term matches the displayed text exactly",
+          "When in doubt, make it clickable"
+        ]
+      }
+    },
+    "quality": {
+      "requirements": [
+        "Start with an intriguing hook that captures attention",
+        "Use clear subheadings to organize information",
+        "Balance facts with speculation appropriately for the style",
+        "End with thought-provoking questions or implications",
+        "Maintain consistent voice throughout"
+      ]
+    }
+  },
+  "contextualPrompts": {
+    "mythology": {
+      "template": "Write about mythological connections and parallels to {context}. Focus on myths, legends, and symbolic meanings related to {context}.",
+      "focus": "archetypal patterns, cultural parallels, symbolic interpretations"
+    },
+    "deeper": {
+      "template": "Dig deeper into {context} with intense investigation and analysis. Provide NEW information not commonly known: undiscovered connections, investigative deductions, forensic-level detail, pragmatic inferences, dramatic speculations backed by logic, sherlock-style reasoning about anomalies and patterns.",
+      "focus": "hidden connections, anomalies, evidence trails, logical deductions"
+    },
+    "trivia": {
+      "template": "Share fascinating trivia and lesser-known facts specifically about {context}. Focus on surprising, unusual, and little-known information.",
+      "focus": "surprising statistics, historical oddities, cultural quirks, scientific anomalies"
+    }
+  },
   "styles": {
-    "conspiracy": {
-      "name": "Conspiracy Theory",
-      "description": "Questions mainstream narratives with paranoid intrigue",
+    "dramatic": {
+      "name": "Dramatic",
+      "description": "Compelling narratives revealing hidden truths",
       "temperature": 0.8,
       "maxTokens": 2000,
-      "systemPromptFile": "styles/conspiracy-system.txt",
-      "userPromptTemplate": "Write a compelling article about \"{topic}\". Remember to include {minKeywords}-{maxKeywords} clickable keywords that link to related mysterious topics.",
+      "systemPromptFile": "styles/dramatic-system.txt",
+      "userPromptTemplate": "Write an article about: {topic}",
       "keywords": {
         "min": 8,
         "max": 12,
-        "themes": ["quantum", "ancient", "hidden", "secret", "forbidden", "consciousness", "dimensional", "archaeological"]
+        "strategy": "Focus on conspiracies, cover-ups, hidden organizations, suppressed technologies"
       }
     },
     "academic": {
-      "name": "Academic Mystery",
-      "description": "Scholarly approach to fringe theories",
+      "name": "Academic",
+      "description": "Scholarly analysis challenging orthodoxy",
       "temperature": 0.7,
       "maxTokens": 2500,
       "systemPromptFile": "styles/academic-system.txt",
-      "userPromptTemplate": "Write a scholarly examination of \"{topic}\" that challenges conventional academic understanding. Include {minKeywords}-{maxKeywords} cross-references to related phenomena.",
+      "userPromptTemplate": "Write an article about: {topic}",
       "keywords": {
         "min": 10,
         "max": 15,
-        "themes": ["hypothesis", "evidence", "correlation", "anomaly", "paradigm", "methodology", "implications"]
+        "strategy": "Academic terms, theoretical frameworks, cross-disciplinary connections, scholarly concepts"
       }
     },
     "mystical": {
-      "name": "Mystical Revelations",
-      "description": "Esoteric and occult perspectives",
+      "name": "Mystical",
+      "description": "Esoteric wisdom and spiritual insights",
       "temperature": 0.9,
       "maxTokens": 1800,
       "systemPromptFile": "styles/mystical-system.txt",
-      "userPromptTemplate": "Channel ancient wisdom about \"{topic}\" through the lens of hidden occult knowledge. Weave {minKeywords}-{maxKeywords} mystical connections to other realms of understanding.",
+      "userPromptTemplate": "Write an article about: {topic}",
       "keywords": {
         "min": 7,
         "max": 10,
-        "themes": ["hermetic", "alchemical", "astral", "chakra", "akashic", "synchronicity", "sacred geometry"]
+        "strategy": "Sacred concepts, spiritual traditions, cosmic principles, esoteric schools"
+      }
+    },
+    "investigative": {
+      "name": "Investigative",
+      "description": "Forensic analysis with detective precision",
+      "temperature": 0.6,
+      "maxTokens": 2200,
+      "systemPromptFile": "styles/investigative-system.txt",
+      "userPromptTemplate": "Write an article about: {topic}",
+      "keywords": {
+        "min": 10,
+        "max": 14,
+        "strategy": "Evidence terms, locations, dates, organizations, technical terminology"
+      }
+    },
+    "poetic": {
+      "name": "Poetic",
+      "description": "Lyrical exploration of hidden beauty",
+      "temperature": 0.85,
+      "maxTokens": 1800,
+      "systemPromptFile": "styles/poetic-system.txt",
+      "userPromptTemplate": "Write an article about: {topic}",
+      "keywords": {
+        "min": 6,
+        "max": 10,
+        "strategy": "Evocative concepts, natural phenomena, artistic movements, philosophical ideas"
+      }
+    },
+    "scientific": {
+      "name": "Scientific",
+      "description": "Rigorous analysis with empirical precision",
+      "temperature": 0.5,
+      "maxTokens": 2400,
+      "systemPromptFile": "styles/scientific-system.txt",
+      "userPromptTemplate": "Write an article about: {topic}",
+      "keywords": {
+        "min": 12,
+        "max": 16,
+        "strategy": "Technical terms, measurements, scientific concepts, research institutions, phenomena"
       }
     }
-  },
-  "formatting": {
-    "allowedTags": ["h1", "h2", "h3", "p", "ul", "li", "strong", "em"],
-    "keywordFormat": "<span class=\"keyword\" data-term=\"{term}\">{display}</span>",
-    "rules": [
-      "Use HTML tags for formatting",
-      "Make content feel like forbidden knowledge",
-      "Include specific numbers and dates",
-      "Create compelling section titles",
-      "Build narrative tension"
-    ]
   }
 }

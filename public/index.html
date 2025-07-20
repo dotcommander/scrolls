@@ -27,7 +27,7 @@
                         'paper-dark': '#e8e6e3',
                         'ink': '#1a1a1a',
                         'link': '#0052a3',
-                        'khaki': '#c2b596',
+                        'khaki': '#b8a078',
                     },
                     fontFamily: {
                         'serif': ['Merriweather', 'Georgia', 'serif'],
@@ -70,10 +70,6 @@
                                     marginBottom: '1.25rem',
                                     fontSize: '1.25rem',
                                     fontWeight: '500',
-                                },
-                                p: {
-                                    marginTop: '1.25rem',
-                                    marginBottom: '1.25rem',
                                 },
                                 strong: {
                                     fontWeight: '600',
@@ -202,24 +198,24 @@
         <!-- Header -->
         <header class="mb-6">
             <div class="flex items-center justify-between">
-                <h1 class="text-4xl font-bold text-ink font-display">Endless Scrolls</h1>
+                <h1 class="text-5xl font-bold font-display" style="color: #2a2a2a; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">Endless Scrolls</h1>
                 <div class="flex gap-2">
                     <!-- Favorites -->
-                    <button @click="showFavorites = !showFavorites" class="p-2 hover:scale-110 transition">
+                    <button @click="showFavorites = !showFavorites" class="p-2 hover:scale-110 transition text-ink/70 hover:text-ink">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
                         </svg>
                     </button>
                     
                     <!-- Search -->
-                    <button @click="showSearch = !showSearch" class="p-2 hover:scale-110 transition">
+                    <button @click="showSearch = !showSearch" class="p-2 hover:scale-110 transition text-ink/70 hover:text-ink">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                         </svg>
                     </button>
                     
                     <!-- Settings -->
-                    <button @click="showSettings = !showSettings" class="p-2 hover:scale-110 transition">
+                    <button @click="showSettings = !showSettings" class="p-2 hover:scale-110 transition text-ink/70 hover:text-ink">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
@@ -230,44 +226,57 @@
             
             
             <!-- Breadcrumbs -->
-            <div class="mt-4 text-sm text-gray-600" x-show="history.length > 0">
-                <template x-for="(item, index) in history" :key="index">
-                    <span>
-                        <button @click="loadArticle(item)" class="hover:text-link" x-text="item"></button>
-                        <span x-show="index < history.length - 1"> › </span>
-                    </span>
-                </template>
+            <div class="mt-4" x-show="history.length > 0">
+                <div class="flex items-center gap-2 text-sm mb-2">
+                    <svg class="w-4 h-4 text-ink/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                    <span class="text-ink/60 font-medium">Your Journey:</span>
+                </div>
+                <div class="flex flex-wrap items-center gap-2">
+                    <template x-for="(item, index) in history" :key="index">
+                        <div class="flex items-center">
+                            <button @click="loadArticle(item.fullTopic || item.topic || item)" 
+                                    :title="item.fullTopic || item.topic || item"
+                                    class="px-4 py-2 text-sm bg-paper/60 hover:bg-paper/80 rounded-full transition-all max-w-[200px] truncate shadow-sm font-medium text-ink/70 hover:text-ink border border-ink/10"
+                                    x-text="cleanTopicName(item.topic || item)"></button>
+                            <svg x-show="index < history.length - 1" class="w-4 h-4 text-ink/30 mx-1.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </div>
+                    </template>
+                </div>
             </div>
         </header>
         
         <!-- Quick Actions -->
-        <nav class="flex justify-center gap-4 mb-6 flex-wrap">
+        <nav class="flex justify-center gap-3 mb-6 flex-wrap">
             <button @click="loadContextualArticle('mythology')" 
-                    class="px-4 py-2 border-2 border-ink/30 rounded-full hover:bg-paper transition"
+                    class="px-6 py-2.5 bg-gradient-to-b from-red-700 to-red-800 text-paper rounded-full hover:from-red-600 hover:to-red-700 transition shadow-md font-medium"
                     :title="currentTopic ? `Mythological connections to ${currentTopic}` : 'Ancient mythology'">
                 mythology
             </button>
             <button @click="loadContextualArticle('deeper')" 
-                    class="px-4 py-2 border-2 border-ink/30 rounded-full hover:bg-paper transition"
+                    class="px-6 py-2.5 bg-gradient-to-b from-red-700 to-red-800 text-paper rounded-full hover:from-red-600 hover:to-red-700 transition shadow-md font-medium"
                     :title="currentTopic ? `Hidden meanings about ${currentTopic}` : 'Dig deeper'">
                 dig deeper
             </button>
             <button @click="loadContextualArticle('trivia')" 
-                    class="px-4 py-2 border-2 border-ink/30 rounded-full hover:bg-paper transition"
+                    class="px-6 py-2.5 bg-gradient-to-b from-red-700 to-red-800 text-paper rounded-full hover:from-red-600 hover:to-red-700 transition shadow-md font-medium"
                     :title="currentTopic ? `Trivia about ${currentTopic}` : 'Random trivia'">
                 trivia
             </button>
             <button @click="loadRandomArticle()" 
-                    class="px-4 py-2 border-2 border-ink/30 rounded-full hover:bg-paper transition">
+                    class="px-6 py-2.5 bg-gradient-to-b from-red-700 to-red-800 text-paper rounded-full hover:from-red-600 hover:to-red-700 transition shadow-md font-medium">
                 surprise me
             </button>
             
             <!-- Style Selector -->
             <div class="relative" x-data="{ showStyleMenu: false }">
                 <button @click="showStyleMenu = !showStyleMenu" 
-                        class="px-4 py-2 border-2 border-link/40 bg-link/5 rounded-full hover:bg-link/10 transition flex items-center gap-2 shadow-sm">
-                    <span x-text="currentStyle.charAt(0).toUpperCase() + currentStyle.slice(1)" class="font-medium text-link"></span>
-                    <svg class="w-4 h-4 text-link" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        class="px-6 py-2.5 bg-gradient-to-b from-gray-700 to-gray-800 text-paper rounded-full hover:from-gray-600 hover:to-gray-700 transition shadow-md font-medium flex items-center gap-2">
+                    <span x-text="currentStyle.charAt(0).toUpperCase() + currentStyle.slice(1)"></span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                     </svg>
                 </button>
@@ -282,49 +291,22 @@
                      x-transition:leave-end="opacity-0 transform scale-95"
                      class="absolute z-10 mt-2 w-48 rounded-lg bg-white shadow-lg border border-gray-200">
                     <div class="py-1">
-                        <button @click="currentStyle = 'dramatic'; showStyleMenu = false; saveSettings()" 
-                                :class="currentStyle === 'dramatic' ? 'bg-link/10' : ''"
-                                class="w-full text-left px-4 py-2 hover:bg-gray-100 transition">
-                            <div class="font-medium">Dramatic</div>
-                            <div class="text-xs text-gray-500">Compelling narratives</div>
-                        </button>
-                        <button @click="currentStyle = 'academic'; showStyleMenu = false; saveSettings()" 
-                                :class="currentStyle === 'academic' ? 'bg-link/10' : ''"
-                                class="w-full text-left px-4 py-2 hover:bg-gray-100 transition">
-                            <div class="font-medium">Academic</div>
-                            <div class="text-xs text-gray-500">Scholarly analysis</div>
-                        </button>
-                        <button @click="currentStyle = 'mystical'; showStyleMenu = false; saveSettings()" 
-                                :class="currentStyle === 'mystical' ? 'bg-link/10' : ''"
-                                class="w-full text-left px-4 py-2 hover:bg-gray-100 transition">
-                            <div class="font-medium">Mystical</div>
-                            <div class="text-xs text-gray-500">Esoteric wisdom</div>
-                        </button>
-                        <button @click="currentStyle = 'investigative'; showStyleMenu = false; saveSettings()" 
-                                :class="currentStyle === 'investigative' ? 'bg-link/10' : ''"
-                                class="w-full text-left px-4 py-2 hover:bg-gray-100 transition">
-                            <div class="font-medium">Investigative</div>
-                            <div class="text-xs text-gray-500">Forensic analysis</div>
-                        </button>
-                        <button @click="currentStyle = 'poetic'; showStyleMenu = false; saveSettings()" 
-                                :class="currentStyle === 'poetic' ? 'bg-link/10' : ''"
-                                class="w-full text-left px-4 py-2 hover:bg-gray-100 transition">
-                            <div class="font-medium">Poetic</div>
-                            <div class="text-xs text-gray-500">Lyrical storytelling</div>
-                        </button>
-                        <button @click="currentStyle = 'scientific'; showStyleMenu = false; saveSettings()" 
-                                :class="currentStyle === 'scientific' ? 'bg-link/10' : ''"
-                                class="w-full text-left px-4 py-2 hover:bg-gray-100 transition">
-                            <div class="font-medium">Scientific</div>
-                            <div class="text-xs text-gray-500">Rigorous precision</div>
-                        </button>
+                        <template x-for="style in [...styles].sort()" :key="style">
+                            <button @click="changeStyle(style)" 
+                                    :class="currentStyle === style ? 'bg-link/10' : ''"
+                                    class="w-full text-left px-4 py-2 hover:bg-gray-100 transition">
+                                <div class="font-medium" x-text="style.charAt(0).toUpperCase() + style.slice(1)"></div>
+                                <div class="text-xs text-gray-500" x-text="getStyleDescription(style)"></div>
+                            </button>
+                        </template>
                     </div>
                 </div>
             </div>
         </nav>
         
         <!-- Main Content -->
-        <main class="bg-paper rounded-lg shadow-xl p-8 min-h-[400px] relative">
+        <main class="bg-paper rounded-2xl shadow-2xl p-12 min-h-[500px] relative"
+              style="background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0, 0, 0, 0.01) 10px, rgba(0, 0, 0, 0.01) 20px);">
             <!-- Favorite Button -->
             <button 
                 x-show="currentTopic && !isLoading"
@@ -340,7 +322,7 @@
             <!-- Loading State -->
             <div x-show="isLoading" class="flex flex-col items-center justify-center py-16">
                 <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-link"></div>
-                <p class="mt-4 text-gray-600">Generating article...</p>
+                <p class="mt-4 text-gray-600">Retrieving scroll...</p>
             </div>
             
             <!-- Welcome Screen -->
@@ -354,14 +336,26 @@
             
             <!-- Search Screen -->
             <div x-show="!isLoading && !currentContent && hasApiKey" class="text-center py-16">
-                <h2 class="text-3xl font-bold text-link mb-4">What mysteries await?</h2>
-                <p class="text-lg mb-8">Enter a topic to begin your journey...</p>
-                <input 
-                    type="text"
-                    @keyup.enter="loadArticle($event.target.value); $event.target.value = ''"
-                    placeholder="quantum consciousness, ancient technology..."
-                    class="w-full max-w-md mx-auto p-3 rounded-lg border-2 border-link focus:outline-none"
-                >
+                <h2 class="font-display text-4xl font-bold text-ink mb-6">What mysteries await?</h2>
+                <p class="text-xl text-ink/80 mb-12 font-serif">Enter a topic to begin your journey...</p>
+                <div class="max-w-2xl mx-auto space-y-6">
+                    <div class="relative">
+                        <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-ink/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"></path>
+                        </svg>
+                        <input 
+                            type="text"
+                            @keyup.enter="loadArticle($event.target.value); $event.target.value = ''"
+                            placeholder="quantum consciousness, ancient technology..."
+                            class="w-full pl-12 pr-4 py-4 text-lg rounded-full border-2 border-ink/30 focus:outline-none focus:border-ink/60 transition bg-paper/50 font-serif"
+                        >
+                    </div>
+                    <button 
+                        @click="const input = $el.parentElement.querySelector('input'); loadArticle(input.value); input.value = ''"
+                        class="px-8 py-3 bg-gradient-to-b from-yellow-700 to-yellow-800 text-paper rounded-full hover:from-yellow-600 hover:to-yellow-700 transition shadow-md font-medium text-lg">
+                        Ready
+                    </button>
+                </div>
             </div>
             
             <!-- Article Content -->
@@ -380,9 +374,18 @@
         
         <!-- Footer -->
         <footer class="mt-6 flex justify-between items-center text-sm text-gray-600">
-            <div class="flex items-center gap-2">
-                <span>Model:</span>
-                <button @click="cycleModel()" class="text-link hover:underline cursor-pointer font-medium" x-text="currentModel"></button>
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-2">
+                    <span>Model:</span>
+                    <button @click="cycleModel()" class="text-link cursor-pointer font-medium hover:opacity-80 transition-opacity" x-text="currentModel"></button>
+                </div>
+                <a href="https://github.com/dotcommander/scrolls" target="_blank" rel="noopener noreferrer" 
+                   class="flex items-center gap-1 text-gray-500 hover:text-link transition-colors" title="View on GitHub">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                    <span class="hidden sm:inline">GitHub</span>
+                </a>
             </div>
             <div class="text-right">
                 <span x-show="generationStats.time && generationStats.time !== '0.0'" x-text="`${generationStats.tokens || 0} tokens • ${generationStats.time}s`"></span>
@@ -452,7 +455,7 @@
                 <div class="mb-4">
                     <label class="block text-sm font-medium mb-2">Writing Style</label>
                     <select x-model="currentStyle" class="w-full p-2 border rounded focus:outline-none focus:border-link">
-                        <template x-for="style in styles" :key="style">
+                        <template x-for="style in [...styles].sort()" :key="style">
                             <option :value="style" x-text="style.charAt(0).toUpperCase() + style.slice(1)"></option>
                         </template>
                     </select>
@@ -488,17 +491,29 @@
         <!-- Favorites Modal -->
         <div x-show="showFavorites" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
             <div @click.away="showFavorites = false" class="bg-white rounded-lg p-6 w-full max-w-[80%] mx-4 max-h-[80vh] overflow-y-auto">
-                <h2 class="text-2xl font-bold mb-4">Favorites</h2>
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-2xl font-bold">Favorites</h2>
+                    <button 
+                        x-show="favorites.length > 0" 
+                        @click="if(confirm('Clear all favorites?')) clearFavorites()"
+                        class="px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600 transition"
+                    >
+                        Clear All
+                    </button>
+                </div>
                 
                 <div x-show="favorites.length === 0" class="text-center py-8 text-gray-500">
                     No favorites yet. Click the heart icon on articles you want to save.
                 </div>
                 
                 <div class="space-y-4">
-                    <template x-for="favorite in favorites" :key="favorite.id">
+                    <template x-for="favorite in [...favorites].sort((a, b) => b.timestamp - a.timestamp)" :key="favorite.id">
                         <div class="p-4 border rounded-lg hover:bg-gray-50 cursor-pointer" @click="loadFavorite(favorite); showFavorites = false">
                             <h3 class="font-bold text-link break-words line-clamp-2" x-text="favorite.topic"></h3>
-                            <p class="text-sm text-gray-600 mt-1" x-text="new Date(favorite.timestamp).toLocaleDateString()"></p>
+                            <div class="flex items-center gap-2 text-sm text-gray-600 mt-1">
+                                <span x-text="new Date(favorite.timestamp).toLocaleDateString()"></span>
+                                <span x-show="favorite.style" class="text-xs bg-gray-100 px-2 py-0.5 rounded" x-text="favorite.style"></span>
+                            </div>
                         </div>
                     </template>
                 </div>
@@ -602,16 +617,17 @@
                     // Initialize cache first
                     this.cache = new Map();
                     
-                    this.apiKey = localStorage.getItem(CONFIG.STORAGE_KEYS.API_KEY) || '';
-                    this.apiEndpoint = localStorage.getItem(CONFIG.STORAGE_KEYS.ENDPOINT) || this.apiEndpoint;
-                    this.favorites = JSON.parse(localStorage.getItem(CONFIG.STORAGE_KEYS.FAVORITES) || '[]');
-                    this.currentModel = localStorage.getItem(CONFIG.STORAGE_KEYS.MODEL) || this.currentModel;
-                    this.currentStyle = localStorage.getItem(CONFIG.STORAGE_KEYS.STYLE) || this.currentStyle;
-                    this.useEnhancedGeneration = localStorage.getItem(CONFIG.STORAGE_KEYS.ENHANCED) === 'true';
+                    this.apiKey = this.storage.get('API_KEY') || '';
+                    this.apiEndpoint = this.storage.get('ENDPOINT') || this.apiEndpoint;
+                    this.favorites = this.storage.getJSON('FAVORITES', []);
+                    this.currentModel = this.storage.get('MODEL') || this.currentModel;
+                    this.currentStyle = this.storage.get('STYLE') || this.currentStyle;
+                    this.useEnhancedGeneration = this.storage.get('ENHANCED') === 'true';
                     
                     // Load cache before loading saved state
                     this.loadCache();
                     this.loadSavedState();
+                    this.cleanupHistory();
                     this.loadPromptConfig();
                     this.isDev = window.location.hostname === 'localhost' || window.location.search.includes('dev=true');
                     this.setupKeyboardShortcuts();
@@ -623,26 +639,91 @@
                 },
                 
                 get isFavorited() {
-                    return this.favorites.some(f => f.topic === this.currentTopic);
+                    // Compare by topic + style to differentiate same topic in different styles
+                    if (!this.currentTopic) return false;
+                    return this.favorites.some(f => 
+                        f.topic === this.currentTopic && 
+                        f.style === this.currentStyle
+                    );
                 },
                 
-                // Methods
-                async loadArticle(topic) {
-                    if (!topic || this.isLoading) return;
-                    
-                    // Check cache first
-                    const cacheKey = `${topic}-${this.currentModel}-${this.currentStyle}-${this.useEnhancedGeneration}`;
+                // Storage helper methods
+                storage: {
+                    get(key) {
+                        return localStorage.getItem(CONFIG.STORAGE_KEYS[key]);
+                    },
+                    set(key, value) {
+                        localStorage.setItem(CONFIG.STORAGE_KEYS[key], value);
+                    },
+                    setJSON(key, value) {
+                        localStorage.setItem(CONFIG.STORAGE_KEYS[key], JSON.stringify(value));
+                    },
+                    getJSON(key, defaultValue = null) {
+                        try {
+                            const item = localStorage.getItem(CONFIG.STORAGE_KEYS[key]);
+                            return item ? JSON.parse(item) : defaultValue;
+                        } catch (e) {
+                            console.error(`Failed to parse ${key}:`, e);
+                            return defaultValue;
+                        }
+                    },
+                    remove(key) {
+                        localStorage.removeItem(CONFIG.STORAGE_KEYS[key]);
+                    }
+                },
+                
+                // Cache helper methods
+                getCacheKey(topic, model = null, style = null, enhanced = null) {
+                    const m = model || this.currentModel;
+                    const s = style || this.currentStyle;
+                    const e = enhanced !== null ? enhanced : this.useEnhancedGeneration;
+                    return `${topic}-${m}-${s}-${e}`;
+                },
+                
+                createCacheEntry(content, stats) {
+                    return {
+                        content: content,
+                        stats: stats || { tokens: Math.round(content.length / 4), time: '0.0' },
+                        timestamp: Date.now()
+                    };
+                },
+                
+                checkCache(cacheKey) {
                     const cached = this.cache.get(cacheKey);
                     if (cached) {
                         console.log('Loading from cache:', cacheKey);
-                        this.currentTopic = topic;
+                        return cached;
+                    }
+                    console.log('Cache miss:', cacheKey);
+                    return null;
+                },
+                
+                saveToCache(cacheKey, content, stats) {
+                    const entry = this.createCacheEntry(content, stats);
+                    this.cache.set(cacheKey, entry);
+                    console.log('Cached article:', cacheKey, 'Total cache size:', this.cache.size);
+                    this.saveCache();
+                },
+                
+                // Methods
+                async loadArticle(topic, displayTopic = null) {
+                    if (!topic || this.isLoading) return;
+                    
+                    // Use displayTopic if provided, otherwise use topic
+                    const topicForDisplay = displayTopic || topic;
+                    const topicForGeneration = topic;
+                    
+                    // Check cache first
+                    const cacheKey = this.getCacheKey(topicForGeneration);
+                    const cached = this.checkCache(cacheKey);
+                    if (cached) {
+                        this.currentTopic = topicForDisplay;
                         this.currentContent = cached.content;
-                        this.generationStats = cached.stats || { tokens: Math.round(cached.content.length / 4), time: '0.0' };
-                        this.addToHistory(topic);
+                        this.generationStats = cached.stats;
+                        this.addToHistory(topicForDisplay);
                         this.saveState();
                         return;
                     }
-                    console.log('Cache miss, generating new article:', cacheKey);
                     
                     this.isLoading = true;
                     this.currentContent = '';
@@ -653,7 +734,7 @@
                         let content;
                         
                         if (this.useEnhancedGeneration) {
-                            content = await this.enhancedGeneration(topic);
+                            content = await this.enhancedGeneration(topicForGeneration);
                         } else {
                             const data = await this.apiCall([
                                 {
@@ -662,7 +743,7 @@
                                 },
                                 {
                                     role: 'user',
-                                    content: `Write an article about: ${topic}`
+                                    content: `Write an article about: ${topicForGeneration}`
                                 }
                             ]);
                         
@@ -674,26 +755,19 @@
                             }
                         }
                         
-                        this.currentTopic = topic;
+                        this.currentTopic = topicForDisplay;
                         this.currentContent = content;
-                        this.addToHistory(topic);
+                        this.addToHistory(topicForDisplay);
                         this.saveState();
                         
                         // Update generation stats
                         this.generationStats = {
-                            tokens: content.length / 4, // Approximate token count
+                            tokens: this.generationStats.tokens || Math.round(content.length / 4),
                             time: ((Date.now() - startTime) / 1000).toFixed(1)
                         };
                         
                         // Cache the result
-                        const cacheEntry = {
-                            content: this.currentContent,
-                            stats: this.generationStats,
-                            timestamp: Date.now()
-                        };
-                        this.cache.set(cacheKey, cacheEntry);
-                        console.log('Cached article:', cacheKey, 'Total cache size:', this.cache.size);
-                        this.saveCache();
+                        this.saveToCache(cacheKey, content, this.generationStats);
                         
                     } catch (error) {
                         console.error('Article generation error:', error);
@@ -710,28 +784,43 @@
                 },
                 
                 loadContextualArticle(type) {
-                    let prompt = '';
                     const context = this.currentTopic || 'general knowledge';
+                    let cleanTopic = '';
+                    let fullPrompt = '';
                     
-                    switch(type) {
-                        case 'mythology':
-                            prompt = this.currentTopic 
-                                ? `mythological connections and parallels to ${context}. Focus on myths, legends, and symbolic meanings related to ${context}.`
-                                : 'ancient mythology and its hidden meanings';
-                            break;
-                        case 'deeper':
-                            prompt = this.currentTopic
-                                ? `dig deeper into ${context} with intense investigation and analysis. Provide NEW information not commonly known: undiscovered connections, investigative deductions, forensic-level detail, pragmatic inferences, dramatic speculations backed by logic, sherlock-style reasoning about anomalies and patterns. Go beyond surface-level knowledge to reveal mind-blowing implications and facts that weren't in the previous article. Connect ${context} to unexpected domains through evidence-based speculation.`
-                                : 'deep investigative analysis of hidden patterns in reality';
-                            break;
-                        case 'trivia':
-                            prompt = this.currentTopic
-                                ? `fascinating trivia and lesser-known facts specifically about ${context}. Focus on surprising, unusual, and little-known information about ${context}.`
-                                : 'random fascinating trivia';
-                            break;
+                    // Use contextual prompts from config if available
+                    if (this.promptConfig && this.promptConfig.contextualPrompts && this.promptConfig.contextualPrompts[type]) {
+                        const contextPrompt = this.promptConfig.contextualPrompts[type];
+                        cleanTopic = this.currentTopic ? `${context} ${type}` : `${type} exploration`;
+                        fullPrompt = this.currentTopic 
+                            ? contextPrompt.template.replace(/{context}/g, context)
+                            : `${type} exploration: ${contextPrompt.focus}`;
+                    } else {
+                        // Fallback to hardcoded prompts
+                        switch(type) {
+                            case 'mythology':
+                                cleanTopic = this.currentTopic ? `${context} mythology` : 'ancient mythology';
+                                fullPrompt = this.currentTopic 
+                                    ? `mythological connections and parallels to ${context}. Focus on myths, legends, and symbolic meanings related to ${context}.`
+                                    : 'ancient mythology and its hidden meanings';
+                                break;
+                            case 'deeper':
+                                cleanTopic = this.currentTopic ? `${context} investigation` : 'hidden patterns';
+                                fullPrompt = this.currentTopic
+                                    ? `dig deeper into ${context} with intense investigation and analysis. Provide NEW information not commonly known: undiscovered connections, investigative deductions, forensic-level detail, pragmatic inferences, dramatic speculations backed by logic, sherlock-style reasoning about anomalies and patterns. Go beyond surface-level knowledge to reveal mind-blowing implications and facts that weren't in the previous article. Connect ${context} to unexpected domains through evidence-based speculation.`
+                                    : 'deep investigative analysis of hidden patterns in reality';
+                                break;
+                            case 'trivia':
+                                cleanTopic = this.currentTopic ? `${context} trivia` : 'random trivia';
+                                fullPrompt = this.currentTopic
+                                    ? `fascinating trivia and lesser-known facts specifically about ${context}. Focus on surprising, unusual, and little-known information about ${context}.`
+                                    : 'random fascinating trivia';
+                                break;
+                        }
                     }
                     
-                    this.loadArticle(prompt);
+                    // Use unified loadArticle with displayTopic parameter
+                    this.loadArticle(fullPrompt, cleanTopic);
                 },
                 
                 handleClick(event) {
@@ -742,166 +831,231 @@
                 },
                 
                 addToHistory(topic) {
-                    if (this.history[this.history.length - 1] !== topic) {
-                        this.history.push(topic);
-                        if (this.history.length > 5) this.history.shift();
+                    const cleanTopic = this.cleanTopicName(topic);
+                    
+                    // Check if this clean topic already exists in history
+                    const existingIndex = this.history.findIndex(item => {
+                        const itemTopic = typeof item === 'string' ? item : item?.topic;
+                        return this.cleanTopicName(itemTopic) === cleanTopic;
+                    });
+                    
+                    if (existingIndex !== -1) {
+                        // Remove the existing entry and add to end (move to most recent)
+                        this.history.splice(existingIndex, 1);
                     }
+                    
+                    // Add the new entry
+                    this.history.push({
+                        topic: cleanTopic,
+                        fullTopic: topic !== cleanTopic ? topic : null,
+                        timestamp: Date.now()
+                    });
+                    
+                    // Keep only last 5 items
+                    if (this.history.length > 5) this.history.shift();
+                },
+                
+                cleanTopicName(topic) {
+                    if (!topic || typeof topic !== 'string') return 'Unknown Topic';
+                    
+                    let cleaned = topic.trim();
+                    
+                    // Common prompt patterns to remove
+                    const removePatterns = [
+                        /^Write an article about:\s*/i,
+                        /^(fascinating trivia|dig deeper|mythological connections|trivia about|mythology about|investigation into|deeper analysis of|random|ancient|hidden|mysterious)\s+(and lesser-known facts specifically about|into|and parallels to|about|of)?\s*/i,
+                        /\.\s+[A-Z].*$/s, // Everything after first sentence
+                        /\s+(Focus on|Provide|Reveal|Connect|Go beyond|Use|Include|Make).*$/i,
+                        /\s+(with|through|using|by)\s+(intense investigation|investigation|analysis).*$/i,
+                        /\s+(investigation|analysis)$/i
+                    ];
+                    
+                    for (const pattern of removePatterns) {
+                        cleaned = cleaned.replace(pattern, '').trim();
+                    }
+                    
+                    // Extract core topic if still too long
+                    if (cleaned.length > 40) {
+                        // Try to find a natural break point
+                        const match = cleaned.match(/^([^,;:\-–—]+)/);
+                        if (match) cleaned = match[1].trim();
+                        
+                        // Truncate at word boundary
+                        if (cleaned.length > 40) {
+                            cleaned = cleaned.substring(0, 37).replace(/\s+\S*$/, '') + '...';
+                        }
+                    }
+                    
+                    // Capitalize first letter
+                    return cleaned.charAt(0).toUpperCase() + cleaned.slice(1) || 'Unknown Topic';
                 },
                 
                 toggleFavorite() {
+                    if (!this.currentTopic || !this.currentContent) return;
+                    
                     if (this.isFavorited) {
-                        this.favorites = this.favorites.filter(f => f.topic !== this.currentTopic);
+                        // Remove by topic + style combination
+                        this.favorites = this.favorites.filter(f => 
+                            !(f.topic === this.currentTopic && f.style === this.currentStyle)
+                        );
                     } else {
                         this.favorites.push({
                             id: Date.now().toString(),
                             topic: this.currentTopic,
+                            style: this.currentStyle,
+                            model: this.currentModel,
                             content: this.currentContent,
                             timestamp: Date.now()
                         });
                     }
-                    localStorage.setItem(CONFIG.STORAGE_KEYS.FAVORITES, JSON.stringify(this.favorites));
+                    this.storage.setJSON('FAVORITES', this.favorites);
                 },
                 
                 loadFavorite(favorite) {
                     this.currentTopic = favorite.topic;
                     this.currentContent = favorite.content;
+                    // Restore style and model if available
+                    if (favorite.style) this.currentStyle = favorite.style;
+                    if (favorite.model) this.currentModel = favorite.model;
                     this.addToHistory(favorite.topic);
                 },
                 
                 saveState() {
                     if (this.currentTopic && this.currentContent) {
-                        localStorage.setItem(CONFIG.STORAGE_KEYS.STATE, JSON.stringify({
+                        this.storage.setJSON('STATE', {
                             topic: this.currentTopic,
                             content: this.currentContent,
                             history: this.history
-                        }));
+                        });
                     }
                 },
                 
                 loadSavedState() {
-                    try {
-                        const saved = localStorage.getItem(CONFIG.STORAGE_KEYS.STATE);
-                        if (saved) {
-                            const state = JSON.parse(saved);
-                            this.currentTopic = state.topic || '';
-                            this.currentContent = state.content || '';
-                            this.history = state.history || [];
+                    const state = this.storage.getJSON('STATE', {});
+                    this.currentTopic = state.topic || '';
+                    this.currentContent = state.content || '';
+                    this.history = state.history || [];
+                },
+                
+                cleanupHistory() {
+                    // Clean up any history items that might have full prompts as topics
+                    let cleanedHistory = [];
+                    
+                    this.history.forEach(item => {
+                        if (typeof item === 'string') {
+                            // Old format - convert to new format
+                            const cleanTopic = this.cleanTopicName(item);
+                            const newItem = {
+                                topic: cleanTopic,
+                                fullTopic: item !== cleanTopic ? item : null,
+                                timestamp: Date.now()
+                            };
+                            
+                            // Check for duplicates
+                            const exists = cleanedHistory.find(h => h.topic === cleanTopic);
+                            if (!exists) {
+                                cleanedHistory.push(newItem);
+                            }
+                        } else if (item && item.topic) {
+                            // New format - ensure topic is clean
+                            const cleanTopic = this.cleanTopicName(item.topic);
+                            const updatedItem = {
+                                topic: cleanTopic,
+                                fullTopic: item.fullTopic || (cleanTopic !== item.topic ? item.topic : null),
+                                timestamp: item.timestamp || Date.now()
+                            };
+                            
+                            // Check for duplicates
+                            const exists = cleanedHistory.find(h => h.topic === cleanTopic);
+                            if (!exists) {
+                                cleanedHistory.push(updatedItem);
+                            }
                         }
-                    } catch (e) {
-                        console.error('Failed to load state:', e);
-                    }
+                    });
+                    
+                    this.history = cleanedHistory;
+                    console.log('Cleaned history:', this.history);
+                    
+                    // Save the cleaned history
+                    this.saveState();
                 },
                 
                 cycleModel() {
                     const currentIndex = this.models.indexOf(this.currentModel);
                     const nextIndex = (currentIndex + 1) % this.models.length;
                     this.currentModel = this.models[nextIndex];
-                    localStorage.setItem(CONFIG.STORAGE_KEYS.MODEL, this.currentModel);
+                    this.storage.set('MODEL', this.currentModel);
+                },
+                
+                changeStyle(newStyle) {
+                    if (this.currentStyle === newStyle) {
+                        // Already this style, just close menu
+                        this.showStyleMenu = false;
+                        return;
+                    }
+                    
+                    const previousStyle = this.currentStyle;
+                    this.currentStyle = newStyle;
+                    this.showStyleMenu = false;
+                    this.saveSettings();
+                    
+                    // If we have a current topic, regenerate with new style
+                    if (this.currentTopic && !this.isLoading) {
+                        console.log(`Regenerating "${this.currentTopic}" with ${newStyle} style (was ${previousStyle})`);
+                        
+                        // Find the full topic/prompt if it exists in history
+                        const historyItem = this.history.find(item => {
+                            const itemTopic = typeof item === 'string' ? item : item?.topic;
+                            return this.cleanTopicName(itemTopic) === this.currentTopic;
+                        });
+                        
+                        const fullTopic = historyItem?.fullTopic || this.currentTopic;
+                        
+                        // Regenerate the article with new style
+                        this.loadArticle(fullTopic);
+                    }
                 },
                 
                 getSystemPrompt() {
-                    const basePrompt = `You are writing articles for "Endless Scrolls", a mysterious collection of interconnected knowledge.
-
-IMPORTANT INSTRUCTIONS:
-- When the user asks to "dig deeper" into a topic, you must provide NEW information through investigative analysis:
-  • Act as a detective uncovering hidden connections
-  • Use Sherlock Holmes-style deductive reasoning
-  • Provide forensic-level detail and anomaly detection
-  • Make pragmatic inferences from available evidence
-  • Include dramatic but logical speculations
-  • Connect to unexpected fields through evidence
-  • Reveal mind-blowing implications not mentioned before
-  • Use specific facts, numbers, dates when possible
-  • Go BEYOND what was in any previous article on this topic
-
-- For "trivia" requests: Focus on fascinating lesser-known facts
-- For "mythology" requests: Focus on mythological connections and symbolism`;
-                    
-                    let stylePrompt = '';
-                    switch (this.currentStyle) {
-                        case 'dramatic':
-                            stylePrompt = `
-Your writing style:
-- Dramatic and compelling narrative voice
-- Reveal shocking truths and hidden information
-- Use powerful, evocative language and imagery
-- Create suspense and intrigue in every paragraph
-- Connect seemingly unrelated events with dramatic flair
-- Build tension and mystery throughout the piece`;
-                            break;
-                        case 'academic':
-                            stylePrompt = `
-Your writing style:
-- Scholarly and analytical, examining fringe theories through an academic lens
-- Cite hypothetical studies and alternative researchers
-- Use academic terminology while exploring unconventional ideas
-- Present multiple perspectives on controversial topics
-- Maintain intellectual rigor while questioning mainstream consensus`;
-                            break;
-                        case 'mystical':
-                            stylePrompt = `
-Your writing style:
-- Explore esoteric wisdom and occult knowledge
-- Reference ancient texts, sacred geometry, and hidden symbols
-- Connect spiritual practices with cosmic consciousness
-- Use mystical and ethereal language
-- Reveal the hidden spiritual significance behind worldly events`;
-                            break;
-                        case 'investigative':
-                            stylePrompt = `
-Your writing style:
-- Channel investigative journalism with relentless fact-finding
-- Present evidence systematically and build compelling cases
-- Use forensic attention to detail and cross-referenced sources
-- Maintain objectivity while uncovering uncomfortable truths
-- Connect dots between disparate pieces of information
-- Write with the authority of a seasoned detective`;
-                            break;
-                        case 'poetic':
-                            stylePrompt = `
-Your writing style:
-- Weave lyrical and metaphorical language throughout
-- Create vivid imagery and sensory experiences
-- Use rhythm, alliteration, and poetic devices
-- Find beauty and wonder in complex topics
-- Transform dry facts into emotionally resonant narratives
-- Write with the soul of a poet and the mind of a scholar`;
-                            break;
-                        case 'scientific':
-                            stylePrompt = `
-Your writing style:
-- Present information with scientific rigor and precision
-- Use clear, logical progression of ideas and evidence
-- Include specific data, measurements, and quantifiable details
-- Explain complex concepts with accessible analogies
-- Maintain objectivity while exploring cutting-edge theories
-- Write with the clarity of a research scientist communicating discoveries`;
-                            break;
+                    // Use external prompts if available
+                    if (this.promptConfig && this.promptConfig.styles[this.currentStyle]) {
+                        const styleConfig = this.promptConfig.styles[this.currentStyle];
+                        const systemPrompt = styleConfig.systemPrompt || '';
+                        
+                        // Add base instructions from config
+                        const baseIdentity = this.promptConfig.baseInstructions?.identity || '';
+                        const formattingRules = this.promptConfig.baseInstructions?.formatting?.keywords?.rules?.join('\n') || '';
+                        const htmlRules = `Use HTML tags: ${this.promptConfig.baseInstructions?.formatting?.html?.tags?.join(', ') || ''}`;
+                        const qualityReqs = this.promptConfig.baseInstructions?.quality?.requirements?.join('\n') || '';
+                        
+                        return `${systemPrompt}\n\n## BASE INSTRUCTIONS\n${baseIdentity}\n\n${htmlRules}\n${formattingRules}\n\n${qualityReqs}`;
                     }
                     
-                    const formatPrompt = `
-
-Formatting requirements:
-- Use proper HTML tags: <h1>, <h2>, <h3>, <p>, <ul>, <li>, <strong>, <em>
-- Include 8-12 clickable keywords throughout the article using EXACTLY this format:
-  <span class="keyword" data-term="actual search term">display text</span>
-- Keywords should feel natural within the text
-- Make the keywords diverse and interesting, leading to related but surprising topics
-
-Content structure:
-- Start with an intriguing introduction
-- Use subheadings to organize information
-- Include interesting facts, theories, or connections
-- End with thought-provoking questions or implications`;
+                    // Fallback to minimal prompt if external config not loaded
+                    return `You are writing articles for "Endless Scrolls", a mysterious collection of interconnected knowledge.
                     
-                    return basePrompt + stylePrompt + formatPrompt;
+Write in ${this.currentStyle} style. Use HTML formatting with <h1>, <h2>, <h3>, <p>, <ul>, <li>, <strong>, <em>.
+Wrap ALL proper nouns, places, people, and concepts in <span class="keyword" data-term="Term">Term</span>.
+If something likely has a Wikipedia page, it MUST be wrapped as a keyword.`;
                 },
                 
                 saveSettings() {
-                    localStorage.setItem(CONFIG.STORAGE_KEYS.API_KEY, this.apiKey);
-                    localStorage.setItem(CONFIG.STORAGE_KEYS.ENDPOINT, this.apiEndpoint);
-                    localStorage.setItem(CONFIG.STORAGE_KEYS.STYLE, this.currentStyle);
-                    localStorage.setItem(CONFIG.STORAGE_KEYS.ENHANCED, this.useEnhancedGeneration);
+                    this.storage.set('API_KEY', this.apiKey);
+                    this.storage.set('ENDPOINT', this.apiEndpoint);
+                    this.storage.set('STYLE', this.currentStyle);
+                    this.storage.set('ENHANCED', this.useEnhancedGeneration);
+                },
+                
+                getStyleDescription(style) {
+                    const descriptions = {
+                        dramatic: 'Compelling narratives',
+                        academic: 'Scholarly analysis',
+                        mystical: 'Esoteric wisdom',
+                        investigative: 'Forensic analysis',
+                        poetic: 'Lyrical storytelling',
+                        scientific: 'Rigorous precision'
+                    };
+                    return descriptions[style] || '';
                 },
                 
                 loadCache() {
@@ -945,14 +1099,19 @@ Content structure:
                     if (this.cache) {
                         this.cache.clear();
                     }
-                    localStorage.removeItem(CONFIG.STORAGE_KEYS.CACHE);
-                    // Also clear the current saved state to avoid confusion
-                    localStorage.removeItem(CONFIG.STORAGE_KEYS.STATE);
+                    this.storage.remove('CACHE');
+                    this.storage.remove('STATE');
                     this.currentTopic = '';
                     this.currentContent = '';
                     this.history = [];
                     alert('Cache cleared!');
                 },
+                
+                clearFavorites() {
+                    this.favorites = [];
+                    this.storage.setJSON('FAVORITES', this.favorites);
+                },
+                
                 
                 async loadPromptConfig() {
                     if (window.location.protocol === 'file:') return;
@@ -961,9 +1120,22 @@ Content structure:
                         const response = await fetch('prompts/config.json');
                         if (response.ok) {
                             this.promptConfig = await response.json();
+                            console.log('Loaded prompt config v' + this.promptConfig.version);
+                            
+                            // Preload all system prompts
+                            for (const [style, config] of Object.entries(this.promptConfig.styles)) {
+                                try {
+                                    const promptResponse = await fetch(`prompts/${config.systemPromptFile}`);
+                                    if (promptResponse.ok) {
+                                        config.systemPrompt = await promptResponse.text();
+                                    }
+                                } catch (e) {
+                                    console.warn(`Failed to load prompt for ${style}:`, e);
+                                }
+                            }
                         }
                     } catch (e) {
-                        console.log('Using default prompts');
+                        console.log('Using default prompts:', e);
                     }
                 },
                 
@@ -979,33 +1151,26 @@ Content structure:
                             e.preventDefault();
                             this.clearCache();
                         } else if (this.isDev && !e.metaKey && !e.ctrlKey) {
-                            if (e.key === '1') {
-                                this.currentStyle = 'dramatic';
-                                if (this.currentTopic) this.loadArticle(this.currentTopic);
-                            } else if (e.key === '2') {
-                                this.currentStyle = 'academic';
-                                if (this.currentTopic) this.loadArticle(this.currentTopic);
-                            } else if (e.key === '3') {
-                                this.currentStyle = 'mystical';
-                                if (this.currentTopic) this.loadArticle(this.currentTopic);
-                            } else if (e.key === '4') {
-                                this.currentStyle = 'investigative';
-                                if (this.currentTopic) this.loadArticle(this.currentTopic);
-                            } else if (e.key === '5') {
-                                this.currentStyle = 'poetic';
-                                if (this.currentTopic) this.loadArticle(this.currentTopic);
-                            } else if (e.key === '6') {
-                                this.currentStyle = 'scientific';
+                            // Number keys 1-6 switch styles
+                            const styleIndex = parseInt(e.key) - 1;
+                            if (styleIndex >= 0 && styleIndex < this.styles.length) {
+                                this.currentStyle = this.styles[styleIndex];
                                 if (this.currentTopic) this.loadArticle(this.currentTopic);
                             } else if (e.key === 'r' || e.key === 'R') {
-                                this.loadPromptConfig();
-                                alert('Prompts reloaded!');
+                                this.loadPromptConfig().then(() => {
+                                    alert(`Prompts reloaded! (v${this.promptConfig?.version || 'unknown'})`);
+                                });
                             }
                         }
                     });
                 },
                 
-                async apiCall(messages, temperature = 0.8, maxTokens = 2000) {
+                async apiCall(messages, temperature = null, maxTokens = null) {
+                    // Use config values if available
+                    const styleConfig = this.promptConfig?.styles?.[this.currentStyle];
+                    const temp = temperature ?? styleConfig?.temperature ?? 0.8;
+                    const tokens = maxTokens ?? styleConfig?.maxTokens ?? 2000;
+                    
                     const response = await fetch(this.apiEndpoint, {
                         method: 'POST',
                         headers: {
@@ -1015,8 +1180,8 @@ Content structure:
                         body: JSON.stringify({
                             model: this.currentModel,
                             messages,
-                            temperature,
-                            max_tokens: maxTokens
+                            temperature: temp,
+                            max_tokens: tokens
                         })
                     });
                     if (!response.ok) throw new Error('API request failed');
@@ -1057,7 +1222,7 @@ Content structure:
                     const phase3Data = await this.apiCall([
                         {
                             role: 'system',
-                            content: this.getSystemPrompt() + '\n\nUse these specific keywords: ' + relationships.keywords.join(', ')
+                            content: this.getSystemPrompt()
                         },
                         {
                             role: 'user',
@@ -1081,6 +1246,18 @@ Content structure:
                         ]);
                         return data.choices[0].message.content;
                     }
+                },
+                
+                // Simple hash function for content comparison
+                hashContent(content) {
+                    if (!content) return '';
+                    let hash = 0;
+                    for (let i = 0; i < content.length; i++) {
+                        const char = content.charCodeAt(i);
+                        hash = ((hash << 5) - hash) + char;
+                        hash = hash & hash; // Convert to 32-bit integer
+                    }
+                    return hash.toString(36);
                 }
             }
         }
