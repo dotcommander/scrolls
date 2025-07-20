@@ -1,0 +1,118 @@
+/**
+ * Endless Scrolls Local Development Configuration
+ * 
+ * Copy this file to config.local.js and customize for your environment.
+ * config.local.js is git-ignored and will auto-load in development mode.
+ * 
+ * This file is loaded when:
+ * - Running on localhost
+ * - URL contains ?dev=true
+ * - Opening file:// URLs with ?dev=true
+ */
+
+// Auto-configure API settings on load
+window.addEventListener('DOMContentLoaded', () => {
+    // Wait for the app to initialize
+    setTimeout(() => {
+        if (!window.scrollsExplorer) return;
+        
+        console.log('📋 Loading local dev config...');
+        
+        // Set API configuration
+        const api = window.scrollsExplorer.api;
+        
+        // Option 1: OpenAI Configuration
+        // api.setApiKey('sk-...');
+        // api.setEndpoint('https://api.openai.com/v1/chat/completions');
+        
+        // Option 2: Local Ollama Configuration
+        // api.setApiKey('not-needed-for-ollama');
+        // api.setEndpoint('http://localhost:11434/v1/chat/completions');
+        
+        // Option 3: Custom API Configuration
+        // api.setApiKey(process.env.OPENAI_API_KEY || 'sk-...');
+        // api.setEndpoint('https://your-proxy.com/v1/chat/completions');
+        
+        // Set default prompt style
+        // api.setPromptStyle('conspiracy'); // or 'academic' or 'mystical'
+        
+        // Custom quick topics for development
+        window.DEV_TOPICS = [
+            'quantum consciousness',
+            'ancient AI',
+            'time crystals',
+            'morphic resonance',
+            'zero point energy',
+            'holographic universe',
+            'sacred geometry',
+            'akashic records',
+            'dimensional rifts',
+            'consciousness upload'
+        ];
+        
+        // Development presets for quick switching
+        window.DEV_PRESETS = {
+            'local': {
+                endpoint: 'http://localhost:11434/v1/chat/completions',
+                apiKey: 'ollama',
+                model: 'llama2'
+            },
+            'openai': {
+                endpoint: 'https://api.openai.com/v1/chat/completions',
+                apiKey: 'sk-...',
+                model: 'gpt-4'
+            },
+            'claude': {
+                endpoint: 'https://api.anthropic.com/v1/messages',
+                apiKey: 'sk-ant-...',
+                model: 'claude-3-opus-20240229'
+            }
+        };
+        
+        // Auto-load a specific article on startup (useful for testing)
+        // window.scrollsExplorer.loadArticle('quantum consciousness');
+        
+        // Enable additional logging
+        window.DEBUG = true;
+        
+        console.log('✅ Local dev config loaded');
+        
+    }, 100);
+});
+
+// Add custom keyboard shortcuts
+document.addEventListener('keydown', (e) => {
+    if (!window.scrollsExplorer?.isDev) return;
+    
+    // D key - Load random dev topic
+    if (e.key === 'd' && !e.metaKey && !e.ctrlKey) {
+        const topics = window.DEV_TOPICS || ['test topic'];
+        const randomTopic = topics[Math.floor(Math.random() * topics.length)];
+        window.scrollsExplorer.loadArticle(randomTopic);
+    }
+    
+    // P key - Switch between presets
+    if (e.key === 'p' && !e.metaKey && !e.ctrlKey) {
+        const presets = Object.keys(window.DEV_PRESETS || {});
+        if (presets.length === 0) return;
+        
+        // Cycle through presets
+        if (!window.currentPresetIndex) window.currentPresetIndex = 0;
+        window.currentPresetIndex = (window.currentPresetIndex + 1) % presets.length;
+        
+        const presetName = presets[window.currentPresetIndex];
+        const preset = window.DEV_PRESETS[presetName];
+        
+        window.scrollsExplorer.api.setEndpoint(preset.endpoint);
+        window.scrollsExplorer.api.setApiKey(preset.apiKey);
+        
+        console.log(`Switched to preset: ${presetName}`);
+    }
+});
+
+// Optional: Override prompt configuration for testing
+// window.DEV_PROMPT_OVERRIDE = {
+//     system: "You are a helpful assistant writing about mysterious topics.",
+//     temperature: 0.9,
+//     max_tokens: 1500
+// };

@@ -1,0 +1,56 @@
+{
+  "version": "1.0",
+  "defaultStyle": "conspiracy",
+  "styles": {
+    "conspiracy": {
+      "name": "Conspiracy Theory",
+      "description": "Questions mainstream narratives with paranoid intrigue",
+      "temperature": 0.8,
+      "maxTokens": 2000,
+      "systemPromptFile": "styles/conspiracy-system.txt",
+      "userPromptTemplate": "Write a compelling article about \"{topic}\". Remember to include {minKeywords}-{maxKeywords} clickable keywords that link to related mysterious topics.",
+      "keywords": {
+        "min": 8,
+        "max": 12,
+        "themes": ["quantum", "ancient", "hidden", "secret", "forbidden", "consciousness", "dimensional", "archaeological"]
+      }
+    },
+    "academic": {
+      "name": "Academic Mystery",
+      "description": "Scholarly approach to fringe theories",
+      "temperature": 0.7,
+      "maxTokens": 2500,
+      "systemPromptFile": "styles/academic-system.txt",
+      "userPromptTemplate": "Write a scholarly examination of \"{topic}\" that challenges conventional academic understanding. Include {minKeywords}-{maxKeywords} cross-references to related phenomena.",
+      "keywords": {
+        "min": 10,
+        "max": 15,
+        "themes": ["hypothesis", "evidence", "correlation", "anomaly", "paradigm", "methodology", "implications"]
+      }
+    },
+    "mystical": {
+      "name": "Mystical Revelations",
+      "description": "Esoteric and occult perspectives",
+      "temperature": 0.9,
+      "maxTokens": 1800,
+      "systemPromptFile": "styles/mystical-system.txt",
+      "userPromptTemplate": "Channel ancient wisdom about \"{topic}\" through the lens of hidden occult knowledge. Weave {minKeywords}-{maxKeywords} mystical connections to other realms of understanding.",
+      "keywords": {
+        "min": 7,
+        "max": 10,
+        "themes": ["hermetic", "alchemical", "astral", "chakra", "akashic", "synchronicity", "sacred geometry"]
+      }
+    }
+  },
+  "formatting": {
+    "allowedTags": ["h1", "h2", "h3", "p", "ul", "li", "strong", "em"],
+    "keywordFormat": "<span class=\"keyword\" data-term=\"{term}\">{display}</span>",
+    "rules": [
+      "Use HTML tags for formatting",
+      "Make content feel like forbidden knowledge",
+      "Include specific numbers and dates",
+      "Create compelling section titles",
+      "Build narrative tension"
+    ]
+  }
+}
