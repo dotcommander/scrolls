@@ -669,6 +669,25 @@
         @keyframes fadeIn {
             to { opacity: 0.9; }
         }
+        
+        /* Temporary keyword highlight for double-clicked words */
+        .keyword-temp {
+            display: inline-block;
+            padding: 2px 4px;
+            margin: -2px -4px;
+            border-radius: 3px;
+            background: rgba(0, 82, 163, 0.05);
+            color: #0052a3;
+            font-weight: 500;
+            cursor: pointer;
+            animation: pulseHighlight 0.6s ease-out;
+        }
+        
+        @keyframes pulseHighlight {
+            0% { background: rgba(0, 82, 163, 0.05); }
+            50% { background: rgba(0, 82, 163, 0.3); box-shadow: 0 0 8px rgba(0, 82, 163, 0.4); }
+            100% { background: rgba(0, 82, 163, 0.2); }
+        }
 
         /* Adjustments for larger mobile screens */
         @media (min-width: 480px) {
@@ -2822,6 +2841,48 @@ Format as HTML using only: <h1>, <h2>, <h3>, <p>, <ul>, <li> tags. Include click
                             this.loadArticle(el.dataset.term);
                         }
                     });
+                });
+                
+                // Add double-click handler for word selection
+                this.contentEl.addEventListener('dblclick', (e) => {
+                    if (this.isLoading) return;
+                    
+                    // Get selected text
+                    const selection = window.getSelection();
+                    const selectedText = selection.toString().trim();
+                    
+                    // Check if it's a single word (no spaces) and not already a keyword
+                    if (selectedText && !selectedText.includes(' ') && selectedText.length > 2) {
+                        // Check if clicked element is not already a keyword
+                        if (!e.target.classList.contains('keyword') && !e.target.closest('.keyword')) {
+                            // Clear selection
+                            selection.removeAllRanges();
+                            
+                            // Create temporary highlight effect
+                            const range = selection.getRangeAt(0);
+                            const span = document.createElement('span');
+                            span.className = 'keyword-temp';
+                            span.textContent = selectedText;
+                            
+                            try {
+                                range.deleteContents();
+                                range.insertNode(span);
+                                
+                                // Animate and load article
+                                setTimeout(() => {
+                                    span.style.background = 'rgba(0, 82, 163, 0.2)';
+                                    span.style.transition = 'all 0.3s ease';
+                                }, 10);
+                                
+                                setTimeout(() => {
+                                    this.loadArticle(selectedText.toLowerCase());
+                                }, 300);
+                            } catch (err) {
+                                // If range manipulation fails, just load the article
+                                this.loadArticle(selectedText.toLowerCase());
+                            }
+                        }
+                    }
                 });
             }
             
